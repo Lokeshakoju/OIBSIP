@@ -1,7 +1,7 @@
 # Oasis Infobyte Tasks
 
 ## Overview
-I had the privilege of undertaking an internship at CodeSoft, where I served as a Java Development Intern. This experience has been both enriching and rewarding, providing me with valuable insights into the dynamic world of Java and its applications.
+I had the privilege of undertaking an internship at Oasis Infobyte, where I served as a Java Development Intern. This experience has been both enriching and rewarding, providing me with valuable insights into the dynamic world of Java and its applications.
 
 ## Tasks Completed
 During my internship, I successfully completed a range of tasks that enhanced my skills and knowledge in the field. Some of the key tasks include:
