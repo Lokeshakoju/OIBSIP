@@ -1,0 +1,131 @@
+import java.util.Scanner;
+
+class ATMInterface {
+    private int balance;
+    private StringBuilder transactionHistory;
+    private String username;
+
+    public ATMInterface(String username, int pin) {
+        this.username = username;
+        this.balance = 0;
+        this.transactionHistory = new StringBuilder();
+    }
+
+    public void deposit(int amount) {
+        if (amount > 0) {
+            balance += amount;
+            recordTransaction("Deposited", amount);
+            System.out.printf("%d successfully deposited in your account.%n", amount);
+        }
+    }
+
+    public void withdraw(int amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            recordTransaction("Withdrawn", amount);
+            System.out.printf("%d withdrawn successfully. Your current balance is %d.%n", amount, balance);
+        } else {
+            System.out.printf("Insufficient funds to withdraw %d.%n", amount);
+        }
+    }
+
+    public void transacHistory() {
+        System.out.println("Transaction History:");
+        if (transactionHistory.length() == 0) {
+            System.out.println("No transactions yet.");
+        } else {
+            System.out.println(transactionHistory);
+        }
+    }
+
+    public void transfer(int amount, String recipient) {
+        if (amount > 0 && recipient != null) {
+            balance -= amount;
+            recordTransaction("Transferred", amount + " to " + recipient);
+            System.out.printf("Transferred %d to %s. Your current balance is %d.%n", amount, recipient, balance);
+        }
+    }
+
+    private void recordTransaction(String action, Object details) {
+        transactionHistory.append(action).append(": ").append(details).append(".\n");
+    }
+
+    public void displayDetails() {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        System.out.printf("Welcome, %s!%n%n", username);
+
+        do {
+            printMenu();
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.printf("Balance: %d%n%n", balance);
+                    break;
+                case 2:
+                    System.out.print("Enter an amount to deposit: ");
+                    int depositAmount = scanner.nextInt();
+                    deposit(depositAmount);
+                    break;
+                case 3:
+                    System.out.print("Enter an amount to withdraw: ");
+                    int withdrawAmount = scanner.nextInt();
+                    withdraw(withdrawAmount);
+                    break;
+                case 4:
+                    transacHistory();
+                    break;
+                case 5:
+                    System.out.print("Enter the amount to transfer: ");
+                    int transferAmount = scanner.nextInt();
+                    System.out.print("Enter the name of the recipient: ");
+                    String recipient = scanner.next();
+                    transfer(transferAmount, recipient);
+                    break;
+                case 6:
+                    System.out.println("Thank you for using our services.");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        } while (choice != 6);
+
+        scanner.close();
+    }
+
+    private void printMenu() {
+        System.out.println("1. Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transaction History");
+        System.out.println("5. Transfer");
+        System.out.println("6. Quit");
+        System.out.print("Enter an option: ");
+    }
+}
+
+public class ATM {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Your Name: ");
+        String username = scanner.nextLine();
+
+        System.out.printf("Enter Your Pin, %s: ", username);
+        int pin = scanner.nextInt();
+
+        int pinLength = (int) (Math.log10(pin) + 1);
+
+        if (pinLength == 4) {
+            ATMInterface atmInterface = new ATMInterface(username, pin);
+            atmInterface.displayDetails();
+        } else {
+            System.out.println("Error! Please enter the correct 4-digit pin number.");
+        }
+
+        scanner.close();
+    }
+}
