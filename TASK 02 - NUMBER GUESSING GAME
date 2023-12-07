@@ -1,0 +1,56 @@
+import java.util.Random;
+import java.util.Scanner;
+
+class NumberGuessing {
+    private static final int Minimum = 1;
+    private static final int Maximum = 100;
+    private static final int Max_Attempts = 10;
+    private static final int Max_Rounds = 2;
+
+    public static void main(String[] args) {
+        Random random = new Random();
+        Scanner scanner = new Scanner(System.in);
+        int totalScore = 0;
+
+        System.out.println("Welcome to the Ultimate Number Guessing Game!");
+        System.out.println("Can you beat the challenge? Let's find out!\n");
+
+        for (int round = 1; round <= Max_Rounds; round++) {
+            int number = random.nextInt(Maximum - Minimum + 1) + Minimum;
+            int attempts = 0;
+
+            System.out.printf("Round %d: Guess the number between %d and %d in %d attempts.\n",
+                    round, Minimum, Maximum, Max_Attempts);
+
+            while (attempts < Max_Attempts) {
+                System.out.print("Enter your guess: ");
+                int guessNumber = scanner.nextInt();
+                attempts++;
+
+                if (guessNumber == number) {
+                    int score = Max_Attempts - attempts;
+                    totalScore += score;
+                    System.out.printf("Congratulations! You guessed the number in %d attempts. Round Score: %d\n",
+                            attempts, score);
+                    break;
+                } else if (guessNumber < number) {
+                    System.out.printf("Oops! It's too low. The number is greater than %d. Attempts left: %d.\n",
+                            guessNumber, Max_Attempts - attempts);
+                } else if (guessNumber > number) {
+                    System.out.printf("Oops! It's too high. The number is less than %d. Attempts left: %d.\n",
+                            guessNumber, Max_Attempts - attempts);
+                }
+            }
+
+            if (attempts == Max_Attempts) {
+                System.out.printf("\nRound %d Summary:\n", round);
+                System.out.println("Attempts used up!");
+                System.out.printf("The elusive number was: %d\n\n", number);
+            }
+        }
+
+        System.out.printf("Game Over. Total Score: %d\n", totalScore);
+        System.out.println("Thanks for playing the Ultimate Number Guessing Game!");
+        scanner.close();
+    }
+}
